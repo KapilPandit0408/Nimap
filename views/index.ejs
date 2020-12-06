@@ -36,6 +36,8 @@
         </div>
     </div>
    
+    
+    <% if (founddata.length > 0) { %>
     <div class="container">
 
 
@@ -52,9 +54,9 @@
                 <tr>
                   
                   <td>         <%=founddata[i]._id%></td>
-                  <td>    <a href="/category/<%=founddata[i]._id%>"><%=founddata[i].name%> </a></td>
+                  <td>    <a href="/category/s/<%=founddata[i]._id%>"><%=founddata[i].name%> </a></td>
                   
-                  <td>  <a href="/category/<%=founddata[i]._id%>"  class="btn btn-md btn-primary">View products</a></td>
+                  <td>  <a href="/category/s/<%=founddata[i]._id%>"  class="btn btn-md btn-primary">View products</a></td>
                     <td>
                         <form action="/category/<%=founddata[i]._id%>/edit" method="GET" >
                             <button class="btn btn-success btn-md">update</button>
@@ -71,8 +73,40 @@
             </table>
         
          </div>
+         <% } %>
 
-  
+
+
+
+         
+         <% if (pages > 0) { %>
+          <ul class="pagination text-center">
+              <% if (current == 1) { %>
+                  <li class="disabled"><a>First</a></li>
+              <% } else { %>
+                  <li><a href="/category/1">First</a></li>
+              <% } %>
+              <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+              <% if (i !== 1) { %>
+                  <li class="disabled"><a>...</a></li>
+              <% } %>
+              <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
+                  <% if (i == current) { %>
+                      <li class="active"><a><%= i %></a></li>
+                  <% } else { %>
+                      <li><a href="/category/<%= i %>"><%= i %></a></li>
+                  <% } %>
+                  <% if (i == Number(current) + 4 && i < pages) { %>
+                      <li class="disabled"><a>...</a></li>
+                  <% } %>
+              <% } %>
+              <% if (current == pages) { %>
+                  <li class="disabled"><a>Last</a></li>
+              <% } else { %>
+                  <li><a href="/category/<%= pages %>">Last</a></li>
+              <% } %>
+          </ul>
+      <% } %>
         
 
 

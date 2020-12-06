@@ -7,17 +7,40 @@ router.get("/add",(req,res)=>{
     res.render("addProductDropdown");
 
 })
+
+
+
+
 router.get("/",(req,res)=>{
-    product.find({},(err,founddata)=>{
-        if(err){
-            console.log(err);
-        }
-        else{
-         
-            res.render("showProduct",{founddata:founddata});
-        }
-    })   
+    res.redirect("/product/1");
 })
+
+       
+   
+ 
+    
+
+    router.get('/:page', function(req, res, next) {
+        var perPage = 10
+        var page = req.params.page || 1
+    
+        product
+            .find({})
+            .skip((perPage * page) - perPage)
+            .limit(perPage)
+            .exec(function(err,  founddata) {
+                product.count().exec(function(err, count) {
+                    if (err) return next(err)
+                    res.render('showProduct', {
+                        founddata:founddata,
+                        current: page,
+                        pages: Math.ceil(count / perPage)
+                    })
+                })
+            })
+    })
+    
+
 
 
 router.post("/",(req,res)=>{

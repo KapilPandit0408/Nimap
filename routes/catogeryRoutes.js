@@ -12,10 +12,33 @@ router.get("/",(req,res)=>{
             console.log(err);
         }
         else{
-            res.render("index",{founddata:founddata});
+            res.redirect("/category/1");
         }
     })   
-router.get("/:id",(req,res)=>{
+
+    router.get('/:page', function(req, res, next) {
+        var perPage = 10
+        var page = req.params.page || 1
+    
+        category
+            .find({})
+            .skip((perPage * page) - perPage)
+            .limit(perPage)
+            .exec(function(err,  founddata) {
+                category.count().exec(function(err, count) {
+                    if (err) return next(err)
+                    res.render('index', {
+                        founddata:founddata,
+                        current: page,
+                        pages: Math.ceil(count / perPage)
+                    })
+                })
+            })
+    })
+    
+
+
+router.get("/s/:id",(req,res)=>{
     category.findById(req.params.id,(err,founddata)=>{
         if(err)
         {
@@ -61,7 +84,7 @@ router.post("/:id/product",(req,res)=>{
     foundproduct.foundcategory=foundcategory;
    
     foundcategory.save();
-        res.redirect("/category/"+id)
+        res.redirect("/category/s/"+id)
    
         }
      })
