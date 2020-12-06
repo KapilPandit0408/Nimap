@@ -1,0 +1,83 @@
+<%- include("partials/header") %>
+
+
+<style>
+    
+    td{
+      height: 30px;
+      width: 500px;
+      padding: 10px;
+    
+    }
+    .bod
+        {
+          margin-top: 50px;
+          margin: 0 auto;
+        }
+    .css{
+      font-size: 2rem;
+      font-family: Georgia, 'Times New Roman', Times, serif;
+    
+    }
+    .btn{
+      margin-left: 4px;
+    }
+    
+    </style>
+
+<div class="container">
+
+    <div class="jumbotron">
+        <h1>Nimap Infotech Crud - Product Details</h1>
+        <hr>
+        <p>this is simple crud application made in nodejs and mongodb</p>
+    
+    </div></div>
+    </div>
+    
+    <div class="container">
+
+
+        <div  class="bod">
+        
+            <table   >
+              <thead>
+                <td class="css">Category Id</td>
+                <td class="css">Category Name</td>
+                <td class="css">Product Id</td>
+                <td class="css">Product Name</td>
+          
+              </thead>
+              <tbody>
+                <% for(var i=0;i<founddata.length;i++){%>
+                <tr>
+                  <td>    <%=founddata[i].catid%>   </td>
+                  <td>      <%=founddata[i].catname%>    </td>
+                  <td>         <%=founddata[i]._id%></td>
+                  <td>    <%=founddata[i].name%> </td>
+              
+
+
+                    <td>
+                        <form action="/product/<%=founddata[i]._id%>/edit" method="GET" >
+                            <button class="btn btn-success btn-md">update</button>
+                                </form>
+                    </td>
+
+                  <td>
+                    <form action="/product/<%=founddata[i]._id%>?_method=delete" method="POST" >
+                        <button class="btn btn-danger btn-md">delete</button>
+                            </form>
+                 <%}%>
+               
+              </tbody>
+            </table>
+        
+         </div>
+
+  
+        
+
+
+</div>
+<%- include("partials/footer") %>
