@@ -3,14 +3,10 @@ const router=express.Router();
 const product=require("../models/productModel")
 
 
-router.get("/add",(req,res)=>{
-    res.render("addProductDropdown");
-
-})
 
 
 
-
+//Redirecting to Product page 1
 router.get("/",(req,res)=>{
     res.redirect("/product/1");
 })
@@ -19,7 +15,7 @@ router.get("/",(req,res)=>{
    
  
     
-
+    //Fetch 10 products based on page/params id
     router.get('/:page', function(req, res, next) {
         var perPage = 10
         var page = req.params.page || 1
@@ -43,18 +39,7 @@ router.get("/",(req,res)=>{
 
 
 
-router.post("/",(req,res)=>{
-    const data={name:req.body.name};
-    product.create(data,(err,data)=>{
-        if(err){
-            console.log(err);
-        }
-        else{
-            res.redirect("/product");
-        }
-    })
-    })
-    
+//Form to edit Product
     router.get("/:id/edit",(req,res)=>{
         product.findById(req.params.id,(err,founddata)=>{
             if(err){
@@ -66,6 +51,7 @@ router.post("/",(req,res)=>{
         })
     })
     
+    //Updating Product
     router.put("/:id",(req,res)=>{
         const data={name:req.body.name}
         product.findByIdAndUpdate(req.params.id,data,(err,founddata)=>{
@@ -78,6 +64,8 @@ router.post("/",(req,res)=>{
         })
     })
     
+
+    // Deleting Product
     router.delete("/:id",(req,res)=>{
         product.findByIdAndRemove(req.params.id,(err,founddata)=>{
             if(err){

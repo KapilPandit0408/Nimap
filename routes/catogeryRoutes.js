@@ -2,10 +2,11 @@ const express=require("express");
 const router=express.Router();
 const category=require("../models/categoryModel");
 const product=require("../models/productModel")
-const { route } = require("./productRoutes");
 
-//category/:id/product/add
 
+
+
+//Redirect to Category Page 1
 router.get("/",(req,res)=>{
     category.find({},(err,founddata)=>{
         if(err){
@@ -16,6 +17,7 @@ router.get("/",(req,res)=>{
         }
     })   
 
+//Fetching 10 records based on page/params id
     router.get('/:page', function(req, res, next) {
         var perPage = 10
         var page = req.params.page || 1
@@ -37,7 +39,7 @@ router.get("/",(req,res)=>{
     })
     
 
-
+// View Products in single category
 router.get("/s/:id",(req,res)=>{
     category.findById(req.params.id,(err,founddata)=>{
         if(err)
@@ -49,6 +51,8 @@ router.get("/s/:id",(req,res)=>{
         }
     }).populate('products');
 })
+
+//Form for adding product for specific category
 router.get("/:id/product/add",(req,res)=>{
 const data=req.params.id;
 console.log(data);
@@ -56,10 +60,14 @@ console.log(data);
 })
 
 })
+
+//Form for adding Category
 router.get("/add",(req,res)=>{
     res.render("addCategory");
 
 })
+
+//Creating Product for specific category
 router.post("/:id/product",(req,res)=>{
     var id=req.params.id
     category.findById(id,(err,foundcategory)=>{
@@ -94,6 +102,8 @@ router.post("/:id/product",(req,res)=>{
     })
 
 })
+
+//Creating category
 router.post("/",(req,res)=>{
 const data={name:req.body.name};
 category.create(data,(err,data)=>{
@@ -106,6 +116,7 @@ category.create(data,(err,data)=>{
 })
 })
 
+//Form to edit Category
 router.get("/:id/edit",(req,res)=>{
     category.findById(req.params.id,(err,founddata)=>{
         if(err){
@@ -117,6 +128,9 @@ router.get("/:id/edit",(req,res)=>{
     })
 })
 
+
+
+//Updating Category
 router.put("/:id",(req,res)=>{
     data={name:req.body.name};
     catdata={catname:req.body.name}
@@ -137,6 +151,9 @@ router.put("/:id",(req,res)=>{
 
 })
 
+
+
+//Deleting Category
 router.delete("/:id",(req,res)=>{
     category.findByIdAndDelete(req.params.id,(err,founddata)=>{
         if(err){

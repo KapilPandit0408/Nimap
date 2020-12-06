@@ -1,4 +1,7 @@
 const mongoose=require("mongoose");
+
+//Product Schema 
+
 const productSchema=new mongoose.Schema({
     id:String,
     name:{
@@ -17,4 +20,7 @@ const productSchema=new mongoose.Schema({
         type:String
     }
 })
+
+//Converting Product Schema into Model
+
 module.exports=mongoose.model("product",productSchema);
